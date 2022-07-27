@@ -1,0 +1,65 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+ul {
+  list-style: none;
+}
+
+a,
+a:visited {
+  text-decoration: none;
+  color: blue;
+}
+
+main {
+  margin: 0 5rem;
+  font-size: 2.4rem;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4rem;
+}
+
+.navigation-user {
+  font-size: 3.2rem;
+}
+
+.navigation__list {
+  display: flex;
+  justify-content: flex-end;
+  padding: 2rem;
+  gap: 4rem;
+}
+
+.navigation__list__link {
+  font-size: 3.2rem;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+
+.title {
+  margin-bottom: 2rem;
+}
+
+.create-room-link {
+  margin-bottom: 3rem;
+}
+
+.room-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}

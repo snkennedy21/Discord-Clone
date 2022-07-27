@@ -1,0 +1,44 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<main>
+  <div class="home-grid">
+    <div>
+      <h2 class="title">Topics</h2>
+      <form method="GET" action="{% url 'home' %}">
+        <input type="text" name="q" placeholder="Search...">
+      </form>
+      <ul>
+        <li>
+          <a href="{% url 'home' %}">View All</a>
+        </li>
+        {% for topic in topics %}
+        <li>
+          <a href="{% url 'home' %}?q={{topic.name}}">{{topic}}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div>
+      <h2 class="title">Rooms</h2>
+      <p>Rooms Available: {{num_rooms}}</p>
+      {% if user.is_authenticated %}
+      <p class="create-room-link">
+        <a href="{% url 'room_create' %}">Create Room</a>
+      </p>
+      {% endif %}
+      <ul class="room-list">
+        {% for room in rooms %}
+        <li>
+          <a href="{% url 'room' room.pk %}">Room -- {{room.name}}</a>
+          <div>
+            <p>Topic: {{ room.topic }}</p>
+            <p>Posted By: {{room.host}} on {{room.created}}</p>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</main>
+{% endblock content %}
