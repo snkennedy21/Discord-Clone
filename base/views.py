@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
 from .forms import RoomForm
 from django.db.models import Q
+from django.contrib.auth.forms import UserCreationForm
 
 def view_home_page(request):
   q = request.GET.get('q') if request.GET.get('q') != None else ''
@@ -26,7 +27,26 @@ def view_room(request, pk):
 
   return render(request, 'base/rooms.html', context)
 
+def registerPage(request):
+  if request.method == "POST":
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+      user = form.save(commit=False)
+      user.username = user.username.lower()
+      user.save()
+      login(request, user)
+      return redirect('home')
+
+  form = UserCreationForm()
+  context = {
+    'form': form
+  }
+
+  return render(request, 'base/login_register.html', context)
+
+
 def loginPage(request):
+  page = "login"
   if request.method == "POST":
     print('hello')
     username = request.POST.get("username")
@@ -46,7 +66,9 @@ def loginPage(request):
       print('error 2')
       messages.error(request, "Incorrect Username or Password")
 
-  context = {}
+  context = {
+    'page': page
+  }
   return render(request, 'base/login_register.html', context)
 
 def logoutUser(request):
