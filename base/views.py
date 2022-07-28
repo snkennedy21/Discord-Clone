@@ -3,6 +3,7 @@ from .models import Room, Topic
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from .forms import RoomForm
 from django.db.models import Q
 from django.contrib.auth.forms import UserCreationForm
@@ -75,7 +76,7 @@ def logoutUser(request):
   logout(request)
   return redirect('home')
 
-
+@login_required
 def createRoom(request):
   form = RoomForm()
   if request.method == "POST":
@@ -90,3 +91,35 @@ def createRoom(request):
     "form": form
   }
   return render(request, 'base/create_room.html', context)
+
+@login_required
+def updateRoom(request, pk):
+  room = Room.objects.get(id=pk)
+  form = RoomForm(instance=room)
+
+  if request.method == "POST":
+    form = RoomForm(request.POST, instance=room)
+    if form.is_valid():
+      form.save()
+      return redirect('home')
+
+  context = {
+    'form': form
+  }
+
+  return render(request, 'base/create_room.html', context)
+
+
+@login_required
+def deleteRoom(request, pk):
+  room = Room.objects.get(id=pk)
+
+  if request.method == "POST":
+    room.delete()
+    return redirect('home')
+
+  context = {
+    'room': room
+  }
+
+  return render(request, 'base/delete.html', context)

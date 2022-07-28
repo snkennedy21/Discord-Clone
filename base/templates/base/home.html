@@ -32,6 +32,12 @@
         <li>
           <a href="{% url 'room' room.pk %}">Room -- {{room.name}}</a>
           <div>
+            {% if room.host == user %}
+            <span><a href="{% url 'edit_room' room.pk %}">Edit</a></span>
+            <span><a href="{% url 'delete_room' room.pk %}">Delete</a></span>
+            {% endif %}
+          </div>
+          <div>
             <p>Topic: {{ room.topic }}</p>
             <p>Posted By: {{room.host}} on {{room.created}}</p>
           </div>
